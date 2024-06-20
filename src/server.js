@@ -30,7 +30,7 @@ export const startServer = () => {
     try {
       const contacts = await getAllContacts();
       res.status(200).json({
-        status: 'success',
+        status: 200,
         message: 'Successfully found contacts!',
         data: contacts,
       });
@@ -56,7 +56,7 @@ export const startServer = () => {
       }
 
       res.status(200).json({
-        status: 'success',
+        status: 200,
         message: `Successfully found contact with id ${contactId}!`,
         data: contact,
       });
@@ -71,14 +71,14 @@ export const startServer = () => {
 
   app.use('*', (req, res) => {
     res.status(404).json({
-      status: 'error',
+      status: 404,
       message: 'Not found',
     });
   });
 
-  app.use((err, req, res) => {
+  app.use((err, req, res, next) => {
     res.status(500).json({
-      status: 'error',
+      status: 500,
       message: 'Something went wrong',
       error: err.message,
     });
