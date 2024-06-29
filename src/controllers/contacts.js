@@ -1,4 +1,5 @@
 import createHttpError from 'http-errors';
+import { createContactSchema } from '../validation/contacts.js';
 import {
   createContact,
   deleteContact,
@@ -35,8 +36,8 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res) => {
+  delete req.body._V;
   const contact = await createContact(req.body);
-
   res.status(201).json({
     status: 201,
     message: `Successfully created a contact!`,
