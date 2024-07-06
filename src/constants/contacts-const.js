@@ -9,3 +9,5 @@ export const contactFieldList = [
   'createdAt',
   'updatedAt',
 ];
+export const contactFieldPhone = /^[0-9()+-\s]+$/;
+export const contactFieldEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
