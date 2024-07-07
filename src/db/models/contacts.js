@@ -1,18 +1,33 @@
 import { model, Schema } from 'mongoose';
-import { contactTypeList } from '../../constants/contacts-const.js';
+import {
+  contactTypeList,
+  contactFieldEmail,
+} from '../../constants/contacts-const.js';
 const contactsSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, 'Title mast be'],
     },
     phoneNumber: {
       type: String,
-      required: true,
+      required: [true, 'Phone number mast be'],
     },
     email: {
       type: String,
-      required: false,
+      validate: {
+        validator: async function (v) {
+          return new Promise((resolve, reject) => {
+            if (contactFieldEmail.test(v)) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          });
+        },
+        message: 'Email validation failed',
+      },
+      required: [false, 'Email required'],
     },
     isFavourite: {
       type: Boolean,
@@ -20,7 +35,10 @@ const contactsSchema = new Schema(
     },
     contactType: {
       type: String,
-      enum: contactTypeList,
+      enum: {
+        values: contactTypeList,
+        message: '{VALUE} is missing',
+      },
       required: true,
       default: 'personal',
     },
