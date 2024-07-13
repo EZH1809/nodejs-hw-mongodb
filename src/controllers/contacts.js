@@ -15,12 +15,14 @@ export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query, contactFieldList);
   const filter = parseFilterParams(req.query);
+  const userId = req.user._id;
   const contacts = await getAllContacts({
     page,
     perPage,
     sortBy,
     sortOrder,
     filter,
+    userId,
   });
 
   res.status(200).json({
@@ -32,10 +34,10 @@ export const getContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  const userId = req.user._id;
+  const contact = await getContactById(contactId, userId);
 
   if (!contact) {
-    // Створюємо та налаштовуємо помилку
     next(createHttpError(404, 'Contact not found'));
     return;
   }
@@ -59,8 +61,8 @@ export const createContactController = async (req, res) => {
 
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
-
-  const contact = await deleteContact(contactId);
+  const userId = req.user._id;
+  const contact = await deleteContact(contactId, userId);
 
   if (!contact) {
     next(createHttpError(404, 'Contact not found'));
@@ -72,8 +74,9 @@ export const deleteContactController = async (req, res, next) => {
 
 export const upsertContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  const userId = req.user._id;
 
-  const result = await updateContact(contactId, req.body, {
+  const result = await updateContact(contactId, userId, req.body, {
     upsert: true,
   });
 
@@ -93,8 +96,9 @@ export const upsertContactController = async (req, res, next) => {
 
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  const userId = req.user._id;
   try {
-    const result = await updateContact(contactId, req.body);
+    const result = await updateContact(contactId, userId, req.body);
 
     if (!result) {
       next(createHttpError(404, 'Contact not found'));
