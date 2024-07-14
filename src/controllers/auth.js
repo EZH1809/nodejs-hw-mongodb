@@ -9,6 +9,21 @@ import { ONE_DAY } from '../constants/index.js';
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
+  const session = await loginUser({
+    email: req.body.email,
+    password: req.body.password,
+  });
+
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+    expires: new Date(Date.now() + ONE_DAY),
+  });
+
+  res.cookie('sessionId', session._id, {
+    httpOnly: true,
+    expires: new Date(Date.now() + ONE_DAY),
+  });
+
   const data = {
     name: user.name,
     email: user.email,

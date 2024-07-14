@@ -24,16 +24,11 @@ export const setupServer = () => {
     }),
   );
 
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'Hello World!',
-    });
-  });
-
   app.use(router); // Додаємо роутер до app як middleware
-
+  //jобращение к несуществующему маршруту
   app.use('*', notFoundHandler);
 
+  //для обработки ошибок
   app.use(errorHandler);
 
   app.listen(PORT, () => {
