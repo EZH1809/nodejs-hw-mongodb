@@ -1,3 +1,4 @@
+// src/services/auth.js
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -7,7 +8,7 @@ import { SessionsCollection } from '../db/models/session.js';
 import {
   SMTP,
   TEMPLATES_DIR,
-  FIFTEEN_MINUTES,
+  FIVE_MINUTES,
   ONE_DAY,
 } from '../constants/index.js';
 import { env } from '../utils/env.js';
@@ -58,7 +59,7 @@ export const loginUser = async (payload) => {
     userId: user._id,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    accessTokenValidUntil: new Date(Date.now() + FIVE_MINUTES),
     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
 };
@@ -76,7 +77,7 @@ const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    accessTokenValidUntil: new Date(Date.now() + FIVE_MINUTES),
     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   };
 };

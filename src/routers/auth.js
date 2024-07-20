@@ -1,3 +1,4 @@
+// src/routers/auth.js
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -40,7 +41,7 @@ router.post(
   validateBody(requestResetEmailSchema),
   ctrlWrapper(requestResetEmailController),
 );
-
+//------- роут для скидання-зміни пароля
 router.post(
   '/reset-password',
   validateBody(resetPasswordSchema),

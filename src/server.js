@@ -9,7 +9,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 import { UPLOAD_DIR } from './constants/index.js';
- 
+
 const PORT = Number(env('PORT', '3000'));
 
 export const setupServer = () => {
@@ -27,7 +27,7 @@ export const setupServer = () => {
   );
 
   app.use(router); // Додаємо роутер до app як middleware
-  //jобращение к несуществующему маршруту
+  //обращение к несуществующему маршруту
   app.use('*', notFoundHandler);
 
   //для обработки ошибок
