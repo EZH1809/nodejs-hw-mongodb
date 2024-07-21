@@ -1,3 +1,4 @@
+//src / controllers / auth.js
 import {
   registerUser,
   loginUser,
@@ -133,7 +134,6 @@ export const requestResetEmailController = async (req, res) => {
       data: {},
     });
   } catch (error) {
-    console.error('Error in requestResetEmailController:', error);
     res.status(500).json({
       message: 'Internal server error',
       error: error.message,
