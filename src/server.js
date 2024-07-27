@@ -25,15 +25,15 @@ export const setupServer = () => {
       },
     }),
   );
+  app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
+
   app.use(router); // Додаємо роутер до app як middleware
   //обращение к несуществующему маршруту
   app.use('*', notFoundHandler);
 
   //для обработки ошибок
   app.use(errorHandler);
-
-  app.use('/uploads', express.static(UPLOAD_DIR));
-  app.use('/api-docs', swaggerDocs());
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
